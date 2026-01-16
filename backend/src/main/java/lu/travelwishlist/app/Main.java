@@ -1,4 +1,4 @@
-package com.travelwishlist.app;
+package lu.travelwishlist.app;
 
 
 public class Main {
