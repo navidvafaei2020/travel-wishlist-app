@@ -11,8 +11,7 @@ public class CreateTagRequestDTO {
 
 
 
-
-    // Constructors, getters and setters
+    // Constructors, getters, setters, ...
     public CreateTagRequestDTO() {}
 
     public CreateTagRequestDTO(String name) {
