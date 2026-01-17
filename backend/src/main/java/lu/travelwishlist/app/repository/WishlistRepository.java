@@ -1,5 +1,6 @@
 package lu.travelwishlist.app.repository;
 
+import lu.travelwishlist.app.entity.Destination;
 import lu.travelwishlist.app.entity.User;
 import lu.travelwishlist.app.entity.Wishlist;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,5 +13,8 @@ public interface WishlistRepository extends JpaRepository<Wishlist, Long> {
 
     // Find all wishlist entries of a user, ordered by the destination name ascending
     List<Wishlist> findByUserOrderByDestinationNameAsc(User user);
+
+    List<Wishlist> findByDestination(Destination destination);
+
 
 }
