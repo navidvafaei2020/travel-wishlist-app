@@ -35,9 +35,10 @@ public class User {
     private List<Wishlist> wishlists = new ArrayList<>();
 
 
+    // Constructors, getters, setters...
 
-    // Empty constructor (required by JPA), Initialize Default Role & Status
-    // This prevents null values without extra logic
+    // Empty constructor (required by JPA)
+    // Initialize Default Role & Status, this prevents null values without extra logic
     public User() {
         this.role = UserRole.USER;
         this.status = UserStatus.ACTIVE;
@@ -53,8 +54,6 @@ public class User {
     }
 
 
-
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
