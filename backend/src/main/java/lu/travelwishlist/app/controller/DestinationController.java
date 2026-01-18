@@ -32,6 +32,7 @@ public class DestinationController {
             summary = "Get all destinations",
             description = "Returns a list of all destinations with their associated tags and country."
     )
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping
     public ResponseEntity<List<DestinationResponseDTO>> getAll() {
         return ResponseEntity.ok(destinationService.getAllDestinations());
@@ -42,6 +43,7 @@ public class DestinationController {
             summary = "Get destination by ID",
             description = "Returns details of a specific destination by its ID."
     )
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/{id}")
     public ResponseEntity<DestinationResponseDTO> getById(@PathVariable Long id) {
         return ResponseEntity.ok(destinationService.getDestinationById(id));
@@ -73,6 +75,7 @@ public class DestinationController {
         return ResponseEntity.ok(destinationService.updateDestination(id, dto));
     }
 
+
     @Operation(
             summary = "Delete destination",
             description = "Deletes a destination by ID. Only ADMIN users can perform this action.",
@@ -99,6 +102,7 @@ public class DestinationController {
         destinationTagService.addTagToDestination(destinationId, tagId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
 
     @Operation(
             summary = "Removes tag",
