@@ -12,12 +12,14 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.context.annotation.Configuration;
 
+// This is for swagger configuration
+
 @Configuration
 @OpenAPIDefinition(
         info = @Info(
                 title = "Travel Wishlist App",
                 version = "1.0.0",
-                description = "EST API for managing wishlist destinations. " +
+                description = " API documentation for managing wishlist destinations. " +
                         "Admins define destinations and users manage their wishlists.",
                 contact = @Contact(
                         name = "API Support",
