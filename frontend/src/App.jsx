@@ -1,25 +1,25 @@
-import travelLogo from './assets/travel-logo.png'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Login from "./pages/Login";
+import Destinations from "./pages/Destinations";
+import Wishlist from "./pages/Wishlist";
+import DestinationForm from "./pages/admin/DestinationForm";
 
 
-const App = () => {
+function App() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Hero Section */}
-      <div className="mb-12">
-        <img
-          src={travelLogo}
-          alt="Travel WishList"
-          className="h-12 md:h-14 mb-3"
-        />
-
-        <h2 className="text-xl md:text-2xl text-gray-800 font-semibold mb-1">
-          Travel wishlist{" "}
-        </h2>
-
-      </div>
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/destinations" element={<Destinations />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/admin/destinations/new" element={<DestinationForm />} />
+        <Route path="/admin/destinations/edit/:id" element={<DestinationForm />} />        
+        <Route path="*" element={<Login />} />
+      </Routes>
+    </Router>
   );
-};
+}
 
 export default App;

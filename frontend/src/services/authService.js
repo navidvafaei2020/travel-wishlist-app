@@ -1,22 +1,39 @@
-import { api } from "./api";
+import api from "./api";
+
+
+// decode JWT to get payload
+const parseJwt = (token) => {
+  if (!token) return null;
+  try {
+    const base64Payload = token.split(".")[1];
+    const payload = atob(base64Payload);
+    return JSON.parse(payload);
+  } catch (err) {
+    console.error("Failed to decode JWT:", err);
+    return null;
+  }
+};
 
 export const authAPI = {
   login: async (credentials) => {
     const { data } = await api.post("/auth/login", credentials);
-    sessionStorage.setItem("token", data.token);
-    sessionStorage.setItem("user", JSON.stringify(data.user));
+
+    if (data.token) sessionStorage.setItem("token", data.token);
+
     return data;
   },
 
   logout: () => {
     sessionStorage.removeItem("token");
-    sessionStorage.removeItem("user");
   },
 
   getToken: () => sessionStorage.getItem("token"),
-  getUser: () => JSON.parse(sessionStorage.getItem("user")),
-  isAdmin: () => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
-    return user?.role === "ADMIN";
+
+  getUserRole: () => {
+    const token = sessionStorage.getItem("token");
+    const payload = parseJwt(token);
+    return payload?.role || null; // read role from JWT
   },
+
+  isAdmin: () => authAPI.getUserRole() === "ADMIN",
 };
