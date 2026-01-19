@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponseDTO response = new ErrorResponseDTO(
                 HttpStatus.BAD_REQUEST.value(),
-                "Validation failed",
+                "Validation failed!",
                 errors
         );
 

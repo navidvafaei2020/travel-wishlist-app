@@ -60,21 +60,21 @@ const DestinationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let imageUrlToSend = form.imageUrl;
+  //  let imageUrlToSend = form.imageUrl;
 
   // If user selected a file, we can store its path (simulate upload)
   // In real projects: send FormData to backend or upload service
   //if (selectedFile) {
   //  imageUrlToSend = `${selectedFile.name}`;
  // }
-  if (selectedFile) {
-    imageUrlToSend = URL.createObjectURL(selectedFile);
-  }  
+  //if (selectedFile) {
+   // imageUrlToSend = URL.createObjectURL(selectedFile);
+  //}  
 
   const payload = {
     name: form.name,
     description: form.description,
-    imageUrl: imageUrlToSend,
+    imageUrl: form.imageUrl,
     countryId: Number(form.countryId),
   };
 
@@ -119,12 +119,31 @@ const DestinationForm = () => {
         <div>
           <label className="block mb-1 font-medium">Image</label>
           <input
+            name="imageUrl"
             type="file"
             accept="image/*"
-            onChange={(e) => setSelectedFile(e.target.files[0])}
+            onChange={(e) => {
+              const file = e.target.files[0];
+              if (!file) return;
+              setSelectedFile(file);
+
+              // Simulate storing path
+              setForm(prev => ({
+                ...prev,
+                imageUrl: `./images/${file.name}`,
+              }));
+            }}
             className="w-full border p-2 rounded"
           />
         </div>
+
+        {selectedFile && (
+          <img
+            src={URL.createObjectURL(selectedFile)}
+            alt="Preview"
+            className="h-48 w-full object-cover rounded mt-2"
+          />
+        )}
 
         <select
           name="countryId"

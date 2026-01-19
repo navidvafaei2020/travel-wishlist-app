@@ -23,6 +23,10 @@ export const authAPI = {
     return data;
   },
 
+  register: (userData) =>
+  api.post("/auth/register", userData).then(res => res.data),
+
+
   logout: () => {
     sessionStorage.removeItem("token");
   },
@@ -33,6 +37,12 @@ export const authAPI = {
     const token = sessionStorage.getItem("token");
     const payload = parseJwt(token);
     return payload?.role || null; // read role from JWT
+  },
+
+  getUsername: () => {
+  const token = sessionStorage.getItem("token");
+  const payload = parseJwt(token);
+  return payload?.sub || payload?.username || null;
   },
 
   isAdmin: () => authAPI.getUserRole() === "ADMIN",
