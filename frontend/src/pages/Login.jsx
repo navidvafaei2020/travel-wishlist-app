@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authAPI } from "../services/authService";
 
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -56,6 +57,15 @@ const Login = () => {
         >
           Login
         </button>
+        <p className="text-center text-sm mt-4">
+          Don&apos;t have an account?{" "}
+          <span
+            onClick={() => navigate("/register")}
+            className="text-blue-600 cursor-pointer hover:underline"
+          >
+            Register here
+          </span>
+        </p>
       </form>
     </div>
   );

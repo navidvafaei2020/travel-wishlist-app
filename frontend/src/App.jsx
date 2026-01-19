@@ -4,6 +4,9 @@ import Login from "./pages/Login";
 import Destinations from "./pages/Destinations";
 import Wishlist from "./pages/Wishlist";
 import DestinationForm from "./pages/admin/DestinationForm";
+import Register from "./pages/Register";
+import About from "./pages/About";
+import Home from "./pages/Home";
 
 
 function App() {
@@ -17,6 +20,10 @@ function App() {
         <Route path="/admin/destinations/new" element={<DestinationForm />} />
         <Route path="/admin/destinations/edit/:id" element={<DestinationForm />} />        
         <Route path="*" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </Router>
   );

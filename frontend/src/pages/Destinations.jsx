@@ -7,6 +7,14 @@ import { authAPI } from "../services/authService";
 const Destinations = () => {
   const [destinations, setDestinations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+
+  const filteredDestinations = destinations.filter(dest =>
+  dest.name.toLowerCase().includes(search.toLowerCase()) ||
+  dest.countryName?.toLowerCase().includes(search.toLowerCase())
+  );
+
+
 
   const navigate = useNavigate();
 
@@ -61,6 +69,14 @@ const Destinations = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Destinations</h1>
 
+        <input
+          type="text"
+          placeholder="Search destinations or countries..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full max-w-md mb-6 border p-2 rounded"
+        />
+
         {isAdmin && (
           <button
             onClick={() => navigate("/admin/destinations/new")}
@@ -75,7 +91,7 @@ const Destinations = () => {
         <p>No destinations found.</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {destinations.map(dest => (
+          {filteredDestinations.map(dest => (
             <div
               key={dest.id}
               className="bg-white rounded-xl shadow-md overflow-hidden flex flex-col"
@@ -110,14 +126,14 @@ const Destinations = () => {
                         onClick={() =>
                           navigate(`/admin/destinations/edit/${dest.id}`)
                         }
-                        className="flex-1 bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600"
+                        className="flex-1 bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700"
                       >
                         Edit
                       </button>
 
                       <button
                         onClick={() => handleDelete(dest.id)}
-                        className="flex-1 bg-red-600 text-white py-2 rounded hover:bg-red-700"
+                        className="flex-1 bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700"
                       >
                         Delete
                       </button>
