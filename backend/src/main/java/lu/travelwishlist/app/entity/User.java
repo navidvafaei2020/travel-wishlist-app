@@ -23,6 +23,12 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
@@ -44,10 +50,12 @@ public class User {
         this.status = UserStatus.ACTIVE;
     }
 
-    public User(String username, String email, String password, UserRole role, UserStatus status, List<Wishlist> wishlists) {
+    public User(String username, String email, String password, String firstName, String lastName, UserRole role, UserStatus status, List<Wishlist> wishlists) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.role = role;
         this.status = status;
         this.wishlists = wishlists;
@@ -65,6 +73,12 @@ public class User {
 
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
+
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
 
     public UserRole getRole() { return role; }
     public void setRole(UserRole role) { this.role = role; }

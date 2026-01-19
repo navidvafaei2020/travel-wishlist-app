@@ -41,7 +41,9 @@ public class AuthServiceImpl implements AuthService {
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setEmail(dto.getEmail());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));  // Hash password!
+        user.setPassword(passwordEncoder.encode(dto.getPassword())); // We should hash the password
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
         user.setRole(dto.getRole());
 
 
@@ -56,6 +58,8 @@ public class AuthServiceImpl implements AuthService {
                 savedUser.getId(),
                 savedUser.getUsername(),
                 savedUser.getEmail(),
+                savedUser.getFirstName(),
+                savedUser.getLastName(),
                 savedUser.getRole().toString(),
                 token,
                 savedUser.getStatus()
@@ -82,6 +86,8 @@ public class AuthServiceImpl implements AuthService {
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
                 user.getRole().toString(),
                 token,
                 user.getStatus()

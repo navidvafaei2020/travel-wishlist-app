@@ -19,6 +19,12 @@ public class RegisterRequestDTO {
     @Size(min = 8, message = "Password must be at least 8 characters")
     private String password;
 
+    @Size(max = 100, message = "First name can br maximum 100 characters")
+    private String firstName;
+
+    @Size(max = 100, message = "Last name can be maximum 100 characters")
+    private String lastName;
+
     @NotNull(message = "Role is required")
     private UserRole role;
 
@@ -28,10 +34,12 @@ public class RegisterRequestDTO {
 
     public RegisterRequestDTO(){}
 
-    public RegisterRequestDTO(String username, String email, String password, UserRole role) {
+    public RegisterRequestDTO(String username, String email, String password, String firstName, String lastName, UserRole role) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.role = role;
     }
 
@@ -56,12 +64,17 @@ public class RegisterRequestDTO {
         this.password = password;
     }
 
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+
     public UserRole getRole() {
         return role;
     }
     public void setRole(UserRole role) {
         this.role = role;
     }
-
 
 }
