@@ -18,6 +18,8 @@ public class UserMapper {
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
                 user.getRole(),
                 user.getStatus()
         );
@@ -34,6 +36,8 @@ public class UserMapper {
         user.setUsername(dto.getUsername());
         user.setEmail(dto.getEmail());
         user.setPassword(dto.getPassword());
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
         user.setRole(dto.getRole());
         user.setStatus(UserStatus.ACTIVE);
         return user;

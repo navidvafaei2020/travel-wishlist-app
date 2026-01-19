@@ -10,6 +10,8 @@ public class AuthMapper {
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
                 user.getRole().name(),
                 token,
                 user.getStatus()
