@@ -11,7 +11,9 @@ import java.util.List;
 @Repository
 public interface DestinationTagRepository extends JpaRepository<DestinationTag, Long> {
 
+    List<DestinationTag> findByDestination(Destination destination);
     List<DestinationTag> findByDestinationOrderByTagNameAsc(Destination destination);
     List<DestinationTag> findByTagOrderByDestinationNameAsc(Tag tag);
+    void deleteByDestination(Destination destination);
 
 }

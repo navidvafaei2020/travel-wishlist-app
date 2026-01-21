@@ -51,6 +51,17 @@ public class DestinationController {
 
 
     @Operation(
+            summary = "Suggests destination by receiving tags using external API integration",
+            description = "Returns list of destinations by receiving tags using external API integration."
+    )
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    @GetMapping("/tags/{tags}")
+    public ResponseEntity<String> getByTags(@PathVariable String tags) {
+        return ResponseEntity.ok(destinationService.getDestinationByTags(tags));
+    }
+
+
+    @Operation(
             summary = "Create destination",
             description = "Creates a new destination. Only ADMIN users can perform this action.",
             security = @SecurityRequirement(name = "bearerAuth")
@@ -116,5 +127,6 @@ public class DestinationController {
         destinationTagService.removeTagFromDestination(destinationId, tagId);
         return ResponseEntity.ok().build();
     }
+
 
 }

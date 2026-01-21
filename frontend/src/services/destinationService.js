@@ -6,4 +6,6 @@ export const destinationAPI = {
   create: (data) => api.post("/destinations", data),
   update: (id, data) => api.put(`/destinations/${id}`, data),
   delete: (id) => api.delete(`/destinations/${id}`),
+  getByTagsSuggestion: (tags) => api.get(`/destinations/tags/${tags}`).then(res => res.data),  
+  clearTags: (id) => api.delete(`/destination-tags/destination/${id}`),
 };

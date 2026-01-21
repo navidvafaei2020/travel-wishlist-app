@@ -3,23 +3,21 @@ import { useNavigate } from "react-router-dom";
 import { destinationAPI } from "../services/destinationService";
 import { wishlistAPI } from "../services/wishlistService";
 import { authAPI } from "../services/authService";
+import TagChip from "../components/TagChip";
+
 
 const Destinations = () => {
   const [destinations, setDestinations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-
-  const filteredDestinations = destinations.filter(dest =>
-  dest.name.toLowerCase().includes(search.toLowerCase()) ||
-  dest.countryName?.toLowerCase().includes(search.toLowerCase())
-  );
-
-
+  const [suggestInput, setSuggestInput] = useState("");
+  const [suggestedNames, setSuggestedNames] = useState(null);  
 
   const navigate = useNavigate();
 
   const isAdmin = authAPI.isAdmin();
   const token = authAPI.getToken();
+
 
   useEffect(() => {
     loadDestinations();
@@ -38,6 +36,71 @@ const Destinations = () => {
       setLoading(false);
     }
   };
+/*
+  const getSuggestedDestinations = (list) => {
+  if (!suggestInput.trim()) return list;
+
+  const keywords = suggestInput
+    .toLowerCase()
+    .split(",")
+    .map(k => k.trim())
+    .filter(Boolean);
+
+  return list.filter(dest =>
+    dest.tags?.some(tag =>
+      keywords.some(keyword =>
+        tag.toLowerCase().includes(keyword)
+      )
+    )
+  );
+  };
+
+
+
+const filteredDestinations = destinations.filter(dest =>
+    dest.name.toLowerCase().includes(search.toLowerCase()) ||
+    dest.countryName?.toLowerCase().includes(search.toLowerCase())
+  );
+*/
+
+/*
+const suggestedDestinations = getSuggestedDestinations(destinations);
+
+const filteredDestinations = suggestedDestinations.filter(dest =>
+  dest.name.toLowerCase().includes(search.toLowerCase()) ||
+  dest.countryName?.toLowerCase().includes(search.toLowerCase())
+);
+
+
+
+const filteredDestinations = destinations.filter(dest => {
+  const q = search.toLowerCase();
+
+  return (
+    dest.name.toLowerCase().includes(q) ||
+    dest.description?.toLowerCase().includes(q) ||
+    dest.countryName?.toLowerCase().includes(q) ||
+    dest.tags?.some(tag => tag.toLowerCase().includes(q))
+  );
+  });
+
+
+  */
+
+
+  const filteredDestinations = destinations.filter(dest => {
+    if (suggestedNames) {
+      return suggestedNames.includes(dest.name.toLowerCase());
+    }
+    const q = search.toLowerCase();
+    return (
+      dest.name.toLowerCase().includes(q) ||
+      dest.description?.toLowerCase().includes(q) ||
+      dest.countryName?.toLowerCase().includes(q) ||
+      dest.tags?.some(tag => tag.toLowerCase().includes(q))
+    );
+  });
+
 
   const handleAddToWishlist = async (destinationId) => {
     try {
@@ -48,6 +111,7 @@ const Destinations = () => {
       alert("Failed to add to wishlist");
     }
   };
+
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this destination?")) return;
@@ -60,22 +124,98 @@ const Destinations = () => {
     }
   };
 
+
+  const handleSuggestMe = async () => {
+    if (!suggestInput.trim()) return;
+
+    try {
+      const result = await destinationAPI.getByTagsSuggestion(suggestInput);
+      const names = result.split(",").map(n => n.trim().toLowerCase());
+      setSuggestedNames(names);
+    } catch (err) {
+      console.error("Suggest failed", err);
+    }
+  };
+
+
+  const handleResetSuggestions = () => {
+    setSuggestedNames(null);
+    setSuggestInput("");
+  };
+  
   if (loading) {
     return <p className="text-center mt-10">Loading destinations...</p>;
   }
 
+
+  const clearTags = async (id) => {
+  if (!window.confirm("Are you sure you want to remove all tags from this destination?")) {
+    return;
+  }
+
+  try {
+    await destinationAPI.clearTags(id);
+
+    // update UI immediately
+    setDestinations(prev =>
+      prev.map(d =>
+        d.id === id ? { ...d, tags: [] } : d
+      )
+    );
+  } catch (err) {
+    console.error(err);
+    alert("Failed to clear tags");
+  }
+};
+
+
+
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Destinations</h1>
+        <h1 className="text-3xl font-bold mr-6">Destinations</h1>
 
-        <input
-          type="text"
-          placeholder="Search destinations or countries..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full max-w-md mb-6 border p-2 rounded"
-        />
+        <div className="flex gap-2 mb-6 max-w-xl mx-auto">
+          {/* Normal search */}
+          <input
+            type="text"
+            placeholder="Search destinations..."
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setSuggestedNames(null);
+            }}
+            className="flex-1 border p-2 rounded"
+          />
+
+          {/* Suggest Me input */}
+          <input
+            type="text"
+            placeholder="e.g. cheap, luxury"
+            value={suggestInput}
+            onChange={(e) => setSuggestInput(e.target.value)}
+            className="flex-1 border p-2 rounded"
+          />
+
+          {/* Suggest button */}
+          <button
+            onClick={handleSuggestMe}
+            disabled={!suggestInput.trim()}
+            className="bg-purple-600 text-white px-4 rounded hover:bg-purple-700 disabled:bg-purple-300"
+          >
+            Suggest
+          </button>
+
+          {/* Reset button */}
+          {suggestedNames && (
+            <button
+              onClick={handleResetSuggestions}
+              className="bg-gray-300 text-gray-800 px-4 rounded hover:bg-gray-400"
+            >
+              Reset
+            </button>
+          )}
+        </div>
 
         {isAdmin && (
           <button
@@ -110,6 +250,16 @@ const Destinations = () => {
                   {dest.description}
                 </p>
 
+                {dest.tags && dest.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {dest.tags.map((tag, index) => (
+                      <TagChip key={index} label={tag} />
+                    ))}
+                  </div>
+                )}
+
+
+
                 <div className="mt-4 flex gap-2">
                   {!isAdmin && (
                     <button
@@ -137,6 +287,17 @@ const Destinations = () => {
                       >
                         Delete
                       </button>
+
+
+                      <button
+                        onClick={() => clearTags(dest.id)}
+                        className="mt-2 bg-red-100 text-red-700 text-sm px-3 py-1 rounded hover:bg-red-200"
+                      >
+                        🧹 Clear Tags
+                      </button>
+
+
+
                     </>
                   )}
                 </div>
