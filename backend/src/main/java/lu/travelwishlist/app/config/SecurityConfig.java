@@ -63,7 +63,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
 
                         // Listing GET endpoints - public (anyone can browse)
-                        .requestMatchers(HttpMethod.GET, "/api/listings/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/destinations/**").permitAll()
 
                         // All other /api/** endpoints require authentication
                         .requestMatchers("/api/**").authenticated()

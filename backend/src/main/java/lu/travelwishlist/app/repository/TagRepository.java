@@ -1,5 +1,6 @@
 package lu.travelwishlist.app.repository;
 
+import lu.travelwishlist.app.entity.Destination;
 import lu.travelwishlist.app.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

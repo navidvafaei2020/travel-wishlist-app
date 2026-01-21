@@ -11,6 +11,8 @@ public interface DestinationService {
 
     DestinationResponseDTO getDestinationById(Long id);
 
+    String getDestinationByTags(String tags);
+
     DestinationResponseDTO createDestination(CreateDestinationRequestDTO dto);
 
     DestinationResponseDTO updateDestination(Long id, UpdateDestinationRequestDTO dto);

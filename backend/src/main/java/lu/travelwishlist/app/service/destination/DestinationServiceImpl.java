@@ -52,6 +52,19 @@ public class DestinationServiceImpl implements DestinationService {
         return mapToDtoWithTags(destination);
     }
 
+
+    // AI Part
+    @Override
+    public String getDestinationByTags(String tags) {
+        return "Paris, Frankfurt";
+        /*
+        return destinationRepository.findAll().stream()
+                .map(this::mapToDtoWithTags)
+                .collect(Collectors.toList());
+
+         */
+    }
+
     @Override
     public DestinationResponseDTO createDestination(CreateDestinationRequestDTO dto) {
         Country country = countryService.getCountryById(dto.getCountryId());

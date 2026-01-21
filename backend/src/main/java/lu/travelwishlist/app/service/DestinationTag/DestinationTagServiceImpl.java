@@ -1,5 +1,6 @@
 package lu.travelwishlist.app.service.DestinationTag;
 
+import jakarta.transaction.Transactional;
 import lu.travelwishlist.app.entity.Destination;
 import lu.travelwishlist.app.entity.DestinationTag;
 import lu.travelwishlist.app.entity.Tag;
@@ -51,6 +52,7 @@ public class DestinationTagServiceImpl implements DestinationTagService {
         destinationTagRepository.save(destinationTag);
     }
 
+
     @Override
     public void removeTagFromDestination(Long destinationId, Long tagId) {
         Destination destination = destinationRepository.findById(destinationId)
@@ -67,4 +69,18 @@ public class DestinationTagServiceImpl implements DestinationTagService {
 
         destinationTagRepository.delete(destinationTag);
     }
+
+
+    @Override
+    @Transactional
+    public void deleteAllTagsFromDestination(Long destinationId) {
+
+        Destination destination = destinationRepository.findById(destinationId)
+                .orElseThrow(() -> new RuntimeException("Destination not found"));
+
+        destinationTagRepository.deleteByDestination(destination);
+    }
+
+
+
 }

@@ -6,4 +6,6 @@ public interface DestinationTagService {
 
     void removeTagFromDestination(Long destinationId, Long tagId);
 
+    void deleteAllTagsFromDestination(Long destinationId);
+
 }

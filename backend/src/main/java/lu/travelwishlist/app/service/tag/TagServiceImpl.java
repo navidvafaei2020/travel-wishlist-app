@@ -2,6 +2,7 @@ package lu.travelwishlist.app.service.tag;
 
 import lu.travelwishlist.app.dto.request.CreateTagRequestDTO;
 import lu.travelwishlist.app.dto.request.UpdateTagRequestDTO;
+import lu.travelwishlist.app.entity.Destination;
 import lu.travelwishlist.app.entity.Tag;
 import lu.travelwishlist.app.mapper.TagMapper;
 import lu.travelwishlist.app.repository.TagRepository;
@@ -41,4 +42,5 @@ public class TagServiceImpl implements TagService {
         tag.setName(dto.getName());
         return tagRepository.save(tag);
     }
+    
 }
