@@ -174,4 +174,4 @@ For full API documentation use the Swagger/OpenAPI UI (see above).
 
 ### Contact
 
-For questions about the assignment, contact: navid.vfa@gmail.com
+For questions about the assignment, contact: navid.vfa@gmail.com. Thank you.
