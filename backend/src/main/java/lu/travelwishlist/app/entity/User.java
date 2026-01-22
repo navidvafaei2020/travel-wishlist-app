@@ -6,39 +6,55 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * JPA entity representing an application User.
+ *
+ * <p>
+ * Users have unique usernames and emails, a password, personal details, role, and status.
+ * Each user can have multiple wishlist entries linking them to destinations.
+ */
 @Entity
 @Table(name = "users")
 public class User {
 
+    /** Primary key of the user */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /** Username of the user. Must be unique and not null */
     @Column(nullable = false, unique = true)
     private String username;
 
+    /** Email of the user. Must be unique and not null */
     @Column(nullable = false, unique = true)
     private String email;
 
+    /** Encrypted password of the user. Required */
     @Column(nullable = false)
     private String password;
 
+    /** First name of the user. Required */
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
+    /** Last name of the user. Required */
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    /** Role of the user (ADMIN, USER) */
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    /** Status of the user account (ACTIVE, INACTIVE, etc.) */
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
-    // One user → Many WishList
+    /** Wishlist entries associated with this user. Not serialized in JSON */
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Wishlist> wishlists = new ArrayList<>();
+
 
 
     // Constructors, getters, setters...
@@ -102,5 +118,4 @@ public class User {
                 ", wishlistings='" + getWishlists() + "'" +
                 "}";
     }
-
 }

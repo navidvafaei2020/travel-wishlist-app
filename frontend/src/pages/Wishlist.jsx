@@ -4,6 +4,25 @@ import { destinationAPI } from "../services/destinationService";
 import { authAPI } from "../services/authService";
 import TagChip from "../components/TagChip";
 
+/**
+ * Wishlist component for the Travel Wishlist application.
+ * 
+ * <p>This component allows users to view and manage their personal travel wishlist:</p>
+ * <ul>
+ *   <li>Displays a grid of all destinations with search and filter functionality.</li>
+ *   <li>Shows which destinations are in the user's wishlist and allows adding/removing items.</li>
+ *   <li>Integrates a "Smart Travel Assistant" for AI-powered tag suggestions.</li>
+ *   <li>Supports text-based search across name, description, country, and tags.</li>
+ *   <li>Uses the <code>TagChip</code> component to visually display tags.</li>
+ *   <li>Fetches destinations from <code>destinationAPI</code> and wishlist items from <code>wishlistAPI</code>.</li>
+ *   <li>Only accessible to users with the USER role; handles loading state while fetching data.</li>
+ * </ul>
+ * 
+ * Uses TailwindCSS for layout and styling.
+ * 
+ * @component
+ */
+
 
 const Wishlist = () => {
   const [destinations, setDestinations] = useState([]);
@@ -79,33 +98,30 @@ const handleSuggestMe = async () => {
   if (loading) return <p className="text-center mt-10">Loading...</p>;
 
 
-  const sortedDestinations = [...destinations].sort((a, b) => {
-  const aSelected = wishlistIds.includes(a.id);
-  const bSelected = wishlistIds.includes(b.id);
 
-  if (aSelected && !bSelected) return -1;
-  if (!aSelected && bSelected) return 1;
-  return 0;
+  const sortedDestinations = [...destinations].sort((a, b) => 
+    a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+  );
+
+  const filteredDestinations = sortedDestinations.filter(dest => {
+    // If AI suggestions are active
+    if (suggestedNames && suggestedNames.length) {
+      return suggestedNames.some(
+        name => name.toLowerCase() === dest.name.toLowerCase()
+      );
+    }
+
+    // Normal search
+    const q = search.toLowerCase();
+    return (
+      dest.name.toLowerCase().includes(q) ||
+      dest.description?.toLowerCase().includes(q) ||
+      dest.countryName?.toLowerCase().includes(q) ||
+      dest.tags?.some(tag => tag.toLowerCase().includes(q))
+    );
   });
 
 
-const filteredDestinations = sortedDestinations.filter(dest => {
-  // If backend suggestion is active
-  if (suggestedNames) {
-    return suggestedNames.some(
-      name => name.toLowerCase() === dest.name.toLowerCase()
-    );
-  }
-
-  // Normal search
-  const q = search.toLowerCase();
-  return (
-    dest.name.toLowerCase().includes(q) ||
-    dest.description?.toLowerCase().includes(q) ||
-    dest.countryName?.toLowerCase().includes(q) ||
-    dest.tags?.some(tag => tag.toLowerCase().includes(q))
-  );
-});
 
 
 return (

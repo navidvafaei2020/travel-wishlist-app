@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service implementation for managing user wishlists.
+ * Provides methods to add, remove, and fetch destinations in a user's wishlist.
+ */
 @Service
 public class WishlistServiceImpl implements WishlistService {
 
@@ -18,6 +22,14 @@ public class WishlistServiceImpl implements WishlistService {
     private final DestinationRepository destinationRepository;
     private final DestinationTagRepository destinationTagRepository;
 
+
+    /**
+     * Constructor to initialize repositories.
+     *
+     * @param wishlistRepository Repository for Wishlist entities.
+     * @param destinationRepository Repository for Destination entities.
+     * @param destinationTagRepository Repository for DestinationTag entities.
+     */
     public WishlistServiceImpl(
             WishlistRepository wishlistRepository,
             DestinationRepository destinationRepository,
@@ -29,6 +41,13 @@ public class WishlistServiceImpl implements WishlistService {
     }
 
 
+    /**
+     * Retrieves the wishlist for a specific user.
+     * Each destination is mapped to a response DTO including its tags.
+     *
+     * @param userId ID of the user.
+     * @return List of WishlistResponseDTO.
+     */
     @Override
     public List<WishlistResponseDTO> getUserWishlist(Long userId) {
         // Fetch all wishlist entries for the user
@@ -42,6 +61,15 @@ public class WishlistServiceImpl implements WishlistService {
     }
 
 
+    /**
+     * Adds a destination to a user's wishlist.
+     * Prevents duplicate entries.
+     *
+     * @param userId ID of the user.
+     * @param destinationId ID of the destination.
+     * @return WishlistResponseDTO representing the added destination.
+     * @throws RuntimeException if destination not found or already in wishlist.
+     */
     @Override
     public WishlistResponseDTO addDestinationToWishlist(Long userId, Long destinationId) {
         Destination destination = destinationRepository.findById(destinationId)
@@ -67,6 +95,13 @@ public class WishlistServiceImpl implements WishlistService {
     }
 
 
+    /**
+     * Removes a destination from a user's wishlist.
+     *
+     * @param userId ID of the user.
+     * @param destinationId ID of the destination to remove.
+     * @throws RuntimeException if destination is not in the wishlist.
+     */
     @Override
     public void removeDestinationFromWishlist(Long userId, Long destinationId) {
         User user = new User();
@@ -81,7 +116,12 @@ public class WishlistServiceImpl implements WishlistService {
     }
 
 
-    // Helper to map Wishlist → DTO
+    /**
+     * Helper method to map a Wishlist entity to a DTO including destination tags.
+     *
+     * @param wishlist Wishlist entity.
+     * @return WishlistResponseDTO containing destination info and tags.
+     */
     private WishlistResponseDTO mapToDtoWithTags(Wishlist wishlist) {
         Destination destination = wishlist.getDestination();
 
@@ -93,5 +133,4 @@ public class WishlistServiceImpl implements WishlistService {
 
         return WishlistMapper.toDto(wishlist, tags);
     }
-
 }

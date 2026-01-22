@@ -5,6 +5,27 @@ import { wishlistAPI } from "../services/wishlistService";
 import { authAPI } from "../services/authService";
 import TagChip from "../components/TagChip";
 
+/**
+ * Destinations component for browsing and managing travel destinations.
+ * 
+ * <p>This component provides:</p>
+ * <ul>
+ *   <li>Display of all destinations in a responsive grid layout.</li>
+ *   <li>Search and filter functionality based on name, description, country, or tags.</li>
+ *   <li>Integration with a "Smart Travel Assistant" for tag-based suggestions.</li>
+ *   <li>Role-based actions:
+ *     <ul>
+ *       <li>Admins can add, edit, delete destinations and clear tags.</li>
+ *       <li>Regular users can add destinations to their wishlist.</li>
+ *     </ul>
+ *   </li>
+ *   <li>Dynamic loading of destinations from the backend using APIs.</li>
+ *   <li>Uses the TagChip component to display tags with color-coded styling.</li>
+ * </ul>
+ * 
+ * @component
+ */
+
 
 const Destinations = () => {
   const [destinations, setDestinations] = useState([]);
@@ -16,7 +37,6 @@ const Destinations = () => {
   const navigate = useNavigate();
 
   const isAdmin = authAPI.isAdmin();
-  const token = authAPI.getToken();
 
 
   useEffect(() => {
@@ -36,70 +56,20 @@ const Destinations = () => {
       setLoading(false);
     }
   };
-/*
-  const getSuggestedDestinations = (list) => {
-  if (!suggestInput.trim()) return list;
-
-  const keywords = suggestInput
-    .toLowerCase()
-    .split(",")
-    .map(k => k.trim())
-    .filter(Boolean);
-
-  return list.filter(dest =>
-    dest.tags?.some(tag =>
-      keywords.some(keyword =>
-        tag.toLowerCase().includes(keyword)
-      )
-    )
-  );
-  };
 
 
-
-const filteredDestinations = destinations.filter(dest =>
-    dest.name.toLowerCase().includes(search.toLowerCase()) ||
-    dest.countryName?.toLowerCase().includes(search.toLowerCase())
-  );
-*/
-
-/*
-const suggestedDestinations = getSuggestedDestinations(destinations);
-
-const filteredDestinations = suggestedDestinations.filter(dest =>
-  dest.name.toLowerCase().includes(search.toLowerCase()) ||
-  dest.countryName?.toLowerCase().includes(search.toLowerCase())
-);
-
-
-
-const filteredDestinations = destinations.filter(dest => {
-  const q = search.toLowerCase();
-
-  return (
-    dest.name.toLowerCase().includes(q) ||
-    dest.description?.toLowerCase().includes(q) ||
-    dest.countryName?.toLowerCase().includes(q) ||
-    dest.tags?.some(tag => tag.toLowerCase().includes(q))
-  );
-  });
-
-
-  */
-
-
-  const filteredDestinations = destinations.filter(dest => {
-    if (suggestedNames) {
-      return suggestedNames.includes(dest.name.toLowerCase());
-    }
-    const q = search.toLowerCase();
-    return (
-      dest.name.toLowerCase().includes(q) ||
-      dest.description?.toLowerCase().includes(q) ||
-      dest.countryName?.toLowerCase().includes(q) ||
-      dest.tags?.some(tag => tag.toLowerCase().includes(q))
-    );
-  });
+  const filteredDestinations = destinations
+    .filter(dest => {
+      if (suggestedNames) return suggestedNames.includes(dest.name.toLowerCase());
+      const q = search.toLowerCase();
+      return (
+        dest.name.toLowerCase().includes(q) ||
+        dest.description?.toLowerCase().includes(q) ||
+        dest.countryName?.toLowerCase().includes(q) ||
+        dest.tags?.some(tag => tag.toLowerCase().includes(q))
+      );
+    })
+    .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
 
 
   const handleAddToWishlist = async (destinationId) => {
@@ -130,7 +100,12 @@ const filteredDestinations = destinations.filter(dest => {
 
     try {
       const result = await destinationAPI.getByTagsSuggestion(suggestInput);
-      const names = result.split(",").map(n => n.trim());
+
+      // lowercase all names
+      const names = result
+        .split(",")
+        .map(n => n.trim().toLowerCase());
+
       setSuggestedNames(names);
     } catch (err) {
       console.error("Suggest failed", err);
@@ -241,9 +216,9 @@ return (
               key={index}
               className="px-4 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-medium"
             >
-              {name}
+              {name.charAt(0).toUpperCase() + name.slice(1)}
             </span>
-          ))}
+          ))}          
         </div>
       )}
     </div>

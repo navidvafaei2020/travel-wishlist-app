@@ -6,28 +6,41 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * JPA entity representing a Destination.
+ *
+ * <p>
+ * Destinations are travel locations that belong to a country and can be associated
+ * with multiple users' wishlists. They may have tags (via DestinationTag) and an image.
+ */
 @Entity
 @Table(name = "destinations")
 public class Destination {
+
+
+    /** Primary key of the destination */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /** Name of the destination. Required */
     @Column(nullable = false)
     private String name;
 
+    /** Description of the destination. Optional */
     @Column
     private String description;
 
+    /** Image URL of the destination. Optional */
     @Column
     private String imageUrl;
 
-    // Many Destinations → One Country
+    /** Country this destination belongs to. Many destinations → one country */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id", nullable = false)
     private Country country;
 
-    // Many Destinations → Many Users via Wishlist
+    /** Wishlist entries linking users to this destination. Not serialized in JSON */
     @JsonIgnore
     @OneToMany(mappedBy = "destination", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Wishlist> wishlists = new ArrayList<>();
@@ -74,6 +87,4 @@ public class Destination {
                 ", country=" + (country != null ? country.getName() : "null") +
                 '}';
     }
-
-
 }

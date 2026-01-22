@@ -2,6 +2,23 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaHome, FaInfoCircle, FaUserCircle, FaSignOutAlt } from "react-icons/fa";
 import { authAPI } from "../services/authService";
 
+;
+
+/**
+ * Navbar component for the application.
+ * 
+ * <p>Displays navigation links conditionally based on user role and authentication state.</p>
+ * 
+ * Features:
+ * - Shows "Home" and "About" links for all users.
+ * - Shows "Destinations" and "Manage Tags" links for ADMIN users.
+ * - Shows "My Wishlist" link for USER role.
+ * - Displays username and logout button if the user is authenticated.
+ * - Redirects to login page on logout.
+ * 
+ * @component
+ */
+
 const Navbar = () => {
   const navigate = useNavigate();
   const role = authAPI.getUserRole();

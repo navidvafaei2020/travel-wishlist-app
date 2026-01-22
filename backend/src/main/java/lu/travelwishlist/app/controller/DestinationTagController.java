@@ -9,6 +9,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for managing tags associated with destinations.
+ *
+ * <p>
+ * Provides endpoints for:
+ * <ul>
+ *     <li>Deleting all tags from a specific destination (admin-only)</li>
+ *     <li>Adding multiple tags to a destination (admin-only)</li>
+ * </ul>
+ *
+ * <p>
+ * All endpoints require the user to have the ADMIN role.
+ */
 @RestController
 @RequestMapping("/api/destination-tags")
 public class DestinationTagController {
@@ -20,9 +33,12 @@ public class DestinationTagController {
     }
 
 
-    /***
-       Removes all tags
-    */
+    /**
+     * Deletes all tags associated with a given destination.
+     *
+     * @param destinationId the ID of the destination
+     * @return empty response with HTTP 204
+     */
     @Operation(
             summary = "Remove all tags from a destination",
             description = "Deletes all tags associated with the given destination ID. Admin only."
@@ -38,6 +54,13 @@ public class DestinationTagController {
 
 
 
+    /**
+     * Assigns multiple tags to a destination.
+     *
+     * @param destinationId the ID of the destination
+     * @param tagIds        list of tag IDs to assign
+     * @return empty response with HTTP 200
+     */
     @Operation(
             summary = "Add multiple tags to a destination",
             description = "Assigns a list of tags to a destination. Admin only."
@@ -51,6 +74,4 @@ public class DestinationTagController {
         destinationTagService.addAllTagsToDestination(destinationId, tagIds);
         return ResponseEntity.ok().build();
     }
-
-
 }

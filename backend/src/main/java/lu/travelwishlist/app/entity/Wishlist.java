@@ -2,20 +2,28 @@ package lu.travelwishlist.app.entity;
 
 import jakarta.persistence.*;
 
+/**
+ * JPA entity representing a Wishlist entry.
+ *
+ * <p>
+ * Each entry links a user to a destination, allowing users to save destinations to their wishlist.
+ * Many wishlist entries can belong to the same user or destination.
+ */
 @Entity
 @Table(name = "wishlists")
 public class Wishlist {
 
+    /** Primary key of the wishlist entry */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Many wishlists → One User
+    /** Associated user. Many wishlist entries → one user */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // Many wishlists → One Destination
+    /** Associated destination. Many wishlist entries → one destination */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "destination_id", nullable = false)
     private Destination destination;
@@ -29,7 +37,6 @@ public class Wishlist {
         this.user = user;
         this.destination = destination;
     }
-
 
     // Getters and Setters
     public Long getId() { return id; }
@@ -49,5 +56,4 @@ public class Wishlist {
                 ", destination=" + (destination != null ? destination.getName() : "null") +
                 '}';
     }
-
 }

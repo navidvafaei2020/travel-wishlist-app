@@ -2,20 +2,28 @@ package lu.travelwishlist.app.entity;
 
 import jakarta.persistence.*;
 
+/**
+ * JPA entity representing the many-to-many relationship between Destinations and Tags.
+ *
+ * <p>
+ * Each record links one Destination to one Tag. This allows a destination to have multiple tags
+ * and a tag to belong to multiple destinations.
+ */
 @Entity
 @Table(name = "destination_tags")
 public class DestinationTag {
 
+    /** Primary key of the destination-tag association */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Many destination-tags → One Destination
+    /** Associated destination. Many destination-tags → one destination */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "destination_id", nullable = false)
     private Destination destination;
 
-    // Many destination-tags → One Tag
+    /** Associated tag. Many destination-tags → one tag */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id", nullable = false)
     private Tag tag;
@@ -49,6 +57,4 @@ public class DestinationTag {
                 ", tag=" + (tag != null ? tag.getName() : "null") +
                 '}';
     }
-
-
 }

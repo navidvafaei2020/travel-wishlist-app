@@ -12,8 +12,21 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.context.annotation.Configuration;
 
-// This is for swagger configuration
 
+/**
+ * OpenAPI (Swagger) configuration for the Travel Wishlist application.
+ *
+ * <p>
+ * This class defines:
+ * <ul>
+ *   <li>General API metadata (title, version, description)</li>
+ *   <li>Server information</li>
+ *   <li>JWT Bearer authentication for secured endpoints</li>
+ * </ul>
+ *
+ * <p>
+ * It is used by Swagger UI to generate interactive API documentation.
+ */
 @Configuration
 @OpenAPIDefinition(
         info = @Info(

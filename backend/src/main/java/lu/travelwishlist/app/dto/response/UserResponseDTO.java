@@ -4,14 +4,34 @@ package lu.travelwishlist.app.dto.response;
 import lu.travelwishlist.app.entity.UserRole;
 import lu.travelwishlist.app.entity.UserStatus;
 
+/**
+ * Data Transfer Object for returning user details in responses.
+ *
+ * <p>
+ * Encapsulates basic user information including ID, username, email, name,
+ * role, and account status.
+ */
 public class UserResponseDTO {
 
+    /** User ID */
     private Long id;
+
+    /** Username */
     private String username;
+
+    /** Email address */
     private String email;
+
+    /** First name */
     private String firstName;
+
+    /** Last name */
     private String lastName;
+
+    /** User role (e.g., ADMIN, USER) */
     private UserRole role;
+
+    /** Account status (e.g., ACTIVE, INACTIVE) */
     private UserStatus status;
 
 

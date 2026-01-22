@@ -12,6 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+
+/**
+ * REST controller for managing countries.
+ *
+ * <p>
+ * Provides endpoints for retrieving all countries or a specific country by ID.
+ * Typically used for dropdowns or reference data in the application.
+ */
 @RestController
 @RequestMapping("/api/countries")
 public class CountryController {
@@ -20,6 +28,11 @@ public class CountryController {
     private CountryService countryService;
 
 
+    /**
+     * Retrieves all available countries.
+     *
+     * @return list of {@link Country}
+     */
     @Operation(
             summary = "Get all countries",
             description = "Returns a list of all available countries. Used for dropdown selection."
@@ -30,6 +43,12 @@ public class CountryController {
     }
 
 
+    /**
+     * Retrieves a specific country by its ID.
+     *
+     * @param id country ID
+     * @return {@link Country} for the given ID
+     */
     @Operation(
             summary = "Get country by ID",
             description = "Returns details of a specific country by its ID."
@@ -38,5 +57,4 @@ public class CountryController {
     public ResponseEntity<Country> getCountry(@PathVariable Long id) {
         return ResponseEntity.ok(countryService.getCountryById(id));
     }
-
 }

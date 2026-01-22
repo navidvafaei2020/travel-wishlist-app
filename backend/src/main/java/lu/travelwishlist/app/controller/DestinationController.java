@@ -16,6 +16,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for managing destinations.
+ *
+ * <p>
+ * Provides CRUD operations for destinations and endpoints for retrieving
+ * destinations by tags. Admin-only operations are secured with JWT.
+ */
 @RestController
 @RequestMapping("/api/destinations")
 public class DestinationController {
@@ -28,6 +35,11 @@ public class DestinationController {
 
 
 
+    /**
+     * Retrieves all destinations with associated tags and countries.
+     *
+     * @return list of {@link DestinationResponseDTO}
+     */
     @Operation(
             summary = "Get all destinations",
             description = "Returns a list of all destinations with their associated tags and country."
@@ -39,6 +51,13 @@ public class DestinationController {
     }
 
 
+
+    /**
+     * Retrieves a specific destination by its ID.
+     *
+     * @param id destination ID
+     * @return {@link DestinationResponseDTO} for the given ID
+     */
     @Operation(
             summary = "Get destination by ID",
             description = "Returns details of a specific destination by its ID."
@@ -50,6 +69,13 @@ public class DestinationController {
     }
 
 
+
+    /**
+     * Suggests destinations based on provided tags using external API integration.
+     *
+     * @param tags comma-separated tags
+     * @return list of suggested destinations as JSON string
+     */
     @Operation(
             summary = "Suggests destination by receiving tags using external API integration",
             description = "Returns list of destinations by receiving tags using external API integration."
@@ -61,6 +87,13 @@ public class DestinationController {
     }
 
 
+
+    /**
+     * Creates a new destination. Admin-only action.
+     *
+     * @param dto request data for creating a destination
+     * @return the created {@link DestinationResponseDTO}
+     */
     @Operation(
             summary = "Create destination",
             description = "Creates a new destination. Only ADMIN users can perform this action.",
@@ -74,6 +107,14 @@ public class DestinationController {
     }
 
 
+
+    /**
+     * Updates an existing destination by ID. Admin-only action.
+     *
+     * @param id  destination ID
+     * @param dto request data for updating a destination
+     * @return the updated {@link DestinationResponseDTO}
+     */
     @Operation(
             summary = "Update destination",
             description = "Updates an existing destination. Only ADMIN users can perform this action.",
@@ -87,6 +128,13 @@ public class DestinationController {
     }
 
 
+
+    /**
+     * Deletes a destination by ID. Admin-only action.
+     *
+     * @param id destination ID
+     * @return empty response with HTTP 204
+     */
     @Operation(
             summary = "Delete destination",
             description = "Deletes a destination by ID. Only ADMIN users can perform this action.",
@@ -98,38 +146,5 @@ public class DestinationController {
         destinationService.deleteDestination(id);
         return ResponseEntity.noContent().build();
     }
-
-/*
-    // Tag endpoints - admin only
-    @Operation(
-            summary = "Add tag",
-            description = "Adds a new tag. Only ADMIN users can perform this action.",
-            security = @SecurityRequirement(name = "bearerAuth")
-    )
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/{destinationId}/tags/{tagId}")
-    public ResponseEntity<Void> addTag(@PathVariable Long destinationId,
-                                       @PathVariable Long tagId) {
-        destinationTagService.addTagToDestination(destinationId, tagId);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-
- */
-
-    /*
-    @Operation(
-            summary = "Removes tag",
-            description = "Removes an existing tag. Only ADMIN users can perform this action.",
-            security = @SecurityRequirement(name = "bearerAuth")
-    )
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/{destinationId}/tags/{tagId}")
-    public ResponseEntity<Void> removeTag(@PathVariable Long destinationId,
-                                          @PathVariable Long tagId) {
-        destinationTagService.removeTagFromDestination(destinationId, tagId);
-        return ResponseEntity.ok().build();
-    }
-*/
 
 }

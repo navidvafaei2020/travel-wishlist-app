@@ -12,10 +12,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Global exception handler for the application.
+ *
+ * <p>
+ * Catches various exceptions thrown in controllers and returns
+ * standardized ErrorResponseDTO with appropriate HTTP status codes.
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Handle validation errors
+    /** Handle validation errors (400 Bad Request) */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponseDTO> handleValidationExceptions(
             MethodArgumentNotValidException ex) {
@@ -39,7 +46,7 @@ public class GlobalExceptionHandler {
     }
 
 
-    // Handle generic RuntimeException (like "not found")
+    /** Handle generic runtime exceptions (500 Internal Server Error) */
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponseDTO> handleRuntimeException(RuntimeException ex) {
         ErrorResponseDTO response = new ErrorResponseDTO(
@@ -50,7 +57,7 @@ public class GlobalExceptionHandler {
     }
 
 
-    // Handle ResourceNotFoundException
+    /** Handle resource not found exceptions (404 Not Found) */
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponseDTO> handleResourceNotFound(ResourceNotFoundException ex) {
         ErrorResponseDTO response = new ErrorResponseDTO(
@@ -61,7 +68,7 @@ public class GlobalExceptionHandler {
     }
 
 
-    // Handle username already exists
+    /** Handle username already exists (409 Conflict) */
     @ExceptionHandler(UsernameAlreadyExistsException.class)
     public ResponseEntity<ErrorResponseDTO> handleUsernameAlreadyExists(
             UsernameAlreadyExistsException ex) {
@@ -73,7 +80,7 @@ public class GlobalExceptionHandler {
     }
 
 
-    // Handle email already exists
+    /** Handle email already exists (409 Conflict) */
     @ExceptionHandler(EmailAlreadyExistsException.class)
     public ResponseEntity<ErrorResponseDTO> handleEmailAlreadyExists(
             EmailAlreadyExistsException ex) {
@@ -85,7 +92,7 @@ public class GlobalExceptionHandler {
     }
 
 
-    // Handle invalid credentials
+    /** Handle invalid credentials (401 Unauthorized) */
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<ErrorResponseDTO> handleInvalidCredentials(
             InvalidCredentialsException ex) {
@@ -97,7 +104,7 @@ public class GlobalExceptionHandler {
     }
 
 
-    // Handle unauthorized
+    /** Handle unauthorized access (401 Unauthorized) */
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ErrorResponseDTO> handleUnauthorized(
             UnauthorizedException ex) {
@@ -108,8 +115,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
-
-    // Handle forbidden
+    /** Handle forbidden access (403 Forbidden) */
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<ErrorResponseDTO> handleForbidden(
             ForbiddenException ex) {
@@ -121,8 +127,7 @@ public class GlobalExceptionHandler {
     }
 
 
-
-    // Handle Duplicate resources → 409 Internal Server Error
+    /** Handle duplicate resources (409 Conflict) */
     @ExceptionHandler(DuplicateResourceException.class)
     public ResponseEntity<ErrorResponseDTO> handleDuplicateResourceException(
             DuplicateResourceException ex) {
@@ -132,5 +137,4 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
-
 }

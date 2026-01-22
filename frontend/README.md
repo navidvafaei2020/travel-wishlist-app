@@ -18,7 +18,7 @@ A simplified Travel Wishlist application built as a final project for the Full S
 **Tech Stack**
 
 - Frontend: React (Vite)
-- Backend (recommended): Spring Boot (REST API)
+- Backend : Spring Boot (REST API)
 - Database: PostgreSQL
 - Auth: JWT-based authentication (frontend expects JWT tokens)
 
@@ -104,6 +104,29 @@ http://localhost:8080/swagger-ui.html
 
 Depending on Springdoc version this may be at `/swagger-ui/index.html`.
 
+### Database Setup
+
+Create the database using PgAdmin (or psql). Name it travel.
+
+This is enough to run the backend. You don’t need to populate it to start the app.
+
+Optional: Populate database with sample data
+
+If you want some initial data, run the included travel.sql file:
+
+psql -U your_db_user -d travel -f main/travel.sql
+
+-U your_db_user → PostgreSQL username
+
+-d travel → database name
+
+-f main/travel.sql → path to SQL file
+
+Verify tables:
+
+psql -U your_db_user -d travel
+\dt
+
 ### Database Schema (high level)
 
 Entities and relationships implemented to meet project requirements:
@@ -140,11 +163,6 @@ For full API documentation use the Swagger/OpenAPI UI (see above).
 - Role-based access control (e.g., `ROLE_USER`, `ROLE_ADMIN`).
 - Token-based authentication (JWT). Frontend stores token (e.g., `localStorage`) and sends it with protected requests.
 
-### Testing
-
-- Backend: run `mvn test` in the `backend` folder.
-- Frontend: add test scripts as needed; this template does not include tests by default.
-
 ### Git & Submission Guidelines
 
 - Use Git with feature branches; commit frequently (daily).
@@ -154,31 +172,6 @@ For full API documentation use the Swagger/OpenAPI UI (see above).
   - Nelson Ferreira (nels-ferr)
 - Submission: share repository link via email or Teams before the deadline (22/01/2026).
 
-### Evaluation Criteria (mapping)
-
-- Functionality (40%): required features working, error handling implemented.
-- Code Quality (25%): clean structure, conventions, comments where helpful.
-- Database Design (15%): proper relationships, CRUD implemented.
-- UI/UX (10%): responsive and usable interface.
-- Documentation & Presentation (10%): clear README, Swagger docs, git workflow.
-
-### Deployment (optional)
-
-- Backend: deploy JAR to a VM or container; configure DB connection to a managed Postgres instance.
-- Frontend: build (`npm run build`) and serve static files (Netlify, Vercel, or any static hosting). Set `VITE_API_BASE_URL` to the deployed backend.
-
-### Notes & Known TODOs
-
-- Ensure teacher accounts have repository access before submission.
-- Consider adding an AI suggestion endpoint (optional) to demonstrate external API/AI integration.
-
 ### Contact
 
-For questions about the assignment, contact:
-
-- andre.silva@education.lu
-- nelson.ferreira@education.lu
-
----
-
-File: [frontend/README.md](frontend/README.md)
+For questions about the assignment, contact: navid.vfa@gmail.com

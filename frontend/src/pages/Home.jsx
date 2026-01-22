@@ -5,6 +5,29 @@ import { authAPI } from "../services/authService";
 import { destinationAPI } from "../services/destinationService";
 import { wishlistAPI } from "../services/wishlistService";
 
+/**
+ * Home component for the Travel Wishlist application.
+ * 
+ * <p>This component serves as the landing page and provides:</p>
+ * <ul>
+ *   <li>Overview of the application with title, description, and icon.</li>
+ *   <li>Dynamic statistics showing total destinations and user's wishlist count (for USER role).</li>
+ *   <li>Role-based call-to-action buttons:
+ *     <ul>
+ *       <li>ADMIN users are directed to manage destinations.</li>
+ *       <li>USER users are directed to view their wishlist.</li>
+ *     </ul>
+ *   </li>
+ *   <li>Fetches data from destinationAPI and wishlistAPI on component mount.</li>
+ *   <li>Displays loading state while fetching data.</li>
+ * </ul>
+ * 
+ * Uses TailwindCSS for styling and react-icons for visual icons.
+ * 
+ * @component
+ */
+
+
 const Home = () => {
   const role = authAPI.getUserRole();
 

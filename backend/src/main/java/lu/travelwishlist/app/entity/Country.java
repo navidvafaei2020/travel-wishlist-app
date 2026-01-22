@@ -6,18 +6,26 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * JPA entity representing a Country.
+ *
+ * <p>
+ * Each country has a unique name and can be associated with multiple destinations.
+ */
 @Entity
 @Table(name = "countries")
 public class Country {
 
+    /** Primary key of the country */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /** Name of the country. Must be unique and not null */
     @Column(nullable = false, unique = true)
     private String name;
 
-    // One Country → Many Destinations
+    /** List of destinations belonging to this country. Not serialized in JSON */
     @JsonIgnore
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Destination> destinations = new ArrayList<>();
@@ -66,6 +74,4 @@ public class Country {
                 ", name='" + getName() + "'" +
                 "}";
     }
-
-
 }

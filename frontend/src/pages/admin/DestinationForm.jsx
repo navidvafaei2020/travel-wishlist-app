@@ -4,6 +4,25 @@ import { destinationAPI } from "../../services/destinationService";
 import { countryAPI } from "../../services/countryService";
 import { authAPI } from "../../services/authService";
 
+;
+
+/**
+ * DestinationForm component for creating or editing destinations.
+ * 
+ * <p>This component handles:</p>
+ * <ul>
+ *   <li>Form fields for name, description, image, country, and tags.</li>
+ *   <li>Fetching countries and tags from APIs.</li>
+ *   <li>Loading destination data when editing.</li>
+ *   <li>Submitting create or update requests to the backend.</li>
+ *   <li>Tag selection and management.</li>
+ *   <li>Client-side file preview for uploaded images.</li>
+ *   <li>Admin-only access control.</li>
+ * </ul>
+ * 
+ * @component
+ */
+
 const DestinationForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();

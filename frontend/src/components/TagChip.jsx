@@ -1,3 +1,17 @@
+/**
+ * TagChip component for displaying a tag label with a color-coded style.
+ * 
+ * <p>This component maps a tag label to a predefined color scheme using TailwindCSS classes.
+ * If the label does not exist in the mapping, a default gray style is applied.</p>
+ * 
+ * @component
+ * @param {Object} props - Component props.
+ * @param {string} props.label - The text label of the tag to display.
+ * 
+ * @example
+ * <TagChip label="beach" />
+ */
+
 const colorMap = {
   beach: "bg-yellow-100 text-yellow-700",
   cheap: "bg-green-100 text-green-700",

@@ -12,20 +12,44 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service implementation for managing Tag entities.
+ * Provides methods to create, read, update, and delete tags.
+ */
 @Service
 public class TagServiceImpl implements TagService {
 
     private final TagRepository tagRepository;
 
+
+    /**
+     * Constructor to initialize the Tag repository.
+     *
+     * @param tagRepository Repository for Tag entities.
+     */
     public TagServiceImpl(TagRepository tagRepository) {
         this.tagRepository = tagRepository;
     }
 
+
+    /**
+     * Retrieves all tags.
+     *
+     * @return List of all Tag entities.
+     */
     @Override
     public List<Tag> getAllTags() {
         return tagRepository.findAll();
     }
 
+
+    /**
+     * Retrieves a tag by its ID.
+     *
+     * @param id ID of the tag.
+     * @return Tag entity.
+     * @throws RuntimeException if the tag is not found.
+     */
     @Override
     public Tag getTagById(Long id) {
         return tagRepository.findById(id)
@@ -33,6 +57,14 @@ public class TagServiceImpl implements TagService {
     }
 
 
+    /**
+     * Creates a new tag.
+     * Throws an exception if a tag with the same name already exists.
+     *
+     * @param dto DTO containing tag creation data.
+     * @return Created Tag entity.
+     * @throws DuplicateResourceException if a tag with the same name exists.
+     */
     @Override
     public Tag createTag(CreateTagRequestDTO dto) {
         if (tagRepository.existsByNameIgnoreCase(dto.getName())) {
@@ -43,6 +75,16 @@ public class TagServiceImpl implements TagService {
         return tagRepository.save(tag);
     }
 
+
+    /**
+     * Updates an existing tag.
+     * Ensures the new name does not duplicate another tag's name.
+     *
+     * @param id ID of the tag to update.
+     * @param dto DTO containing updated tag data.
+     * @return Updated Tag entity.
+     * @throws DuplicateResourceException if another tag with the same name exists.
+     */
     @Override
     public Tag updateTag(Long id, UpdateTagRequestDTO dto) {
         Tag tag = getTagById(id);
@@ -54,6 +96,13 @@ public class TagServiceImpl implements TagService {
     }
 
 
+
+    /**
+     * Deletes a tag by its ID.
+     *
+     * @param id ID of the tag to delete.
+     * @throws RuntimeException if the tag is not found.
+     */
     @Override
     @Transactional
     public void deleteTag(Long id) {
@@ -61,6 +110,4 @@ public class TagServiceImpl implements TagService {
                 .orElseThrow(() -> new RuntimeException("Tag not found"));
         tagRepository.delete(tag);
     }
-
-
 }

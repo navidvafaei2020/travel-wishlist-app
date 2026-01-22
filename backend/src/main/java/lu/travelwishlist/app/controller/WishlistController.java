@@ -14,6 +14,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+/**
+ * REST controller for managing user wishlists.
+ *
+ * <p>
+ * Provides endpoints for:
+ * <ul>
+ *     <li>Retrieving the authenticated user's wishlist</li>
+ *     <li>Adding destinations to the wishlist</li>
+ *     <li>Removing destinations from the wishlist</li>
+ * </ul>
+ *
+ * <p>
+ * All endpoints require the user to have the USER role and a valid JWT token.
+ */
 @RestController
 @RequestMapping("/api/wishlist")
 public class WishlistController {
@@ -22,6 +37,12 @@ public class WishlistController {
     private WishlistService wishlistService;
 
 
+    /**
+     * Retrieves all destinations in the authenticated user's wishlist.
+     *
+     * @param userId the authenticated user's ID
+     * @return list of {@link WishlistResponseDTO}
+     */
     @Operation(
             summary = "Get user's wishlist",
             description = "Returns all destinations saved in the authenticated user's wishlist.",
@@ -35,6 +56,13 @@ public class WishlistController {
     }
 
 
+    /**
+     * Adds a destination to the authenticated user's wishlist.
+     *
+     * @param userId        the authenticated user's ID
+     * @param destinationId ID of the destination to add
+     * @return the added {@link WishlistResponseDTO}
+     */
     @Operation(
             summary = "Add destination to wishlist",
             description = "Adds a destination to the authenticated user's wishlist.",
@@ -53,6 +81,13 @@ public class WishlistController {
     }
 
 
+    /**
+     * Removes a destination from the authenticated user's wishlist.
+     *
+     * @param userId        the authenticated user's ID
+     * @param destinationId ID of the destination to remove
+     * @return empty response with HTTP 204
+     */
     @Operation(
             summary = "Remove destination from wishlist",
             description = "Removes a destination from the authenticated user's wishlist.",

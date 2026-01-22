@@ -14,6 +14,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Service for generating and validating JWT tokens.
+ *
+ * <p>
+ * Provides methods to create tokens, extract user info, and verify token validity.
+ */
 @Service
 public class JwtService {
     @Value("${jwt.secret}")
@@ -22,7 +28,13 @@ public class JwtService {
     @Value("${jwt.expiration}")
     private long expiration;  // in milliseconds
 
-    // Generate JWT token
+
+    /**
+     * Generates a JWT token for the given user.
+     *
+     * @param user the user entity
+     * @return JWT token as a String
+     */
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", user.getId());
@@ -38,22 +50,22 @@ public class JwtService {
                 .compact();
     }
 
-    // Extract username from token
+    /** Extracts the username from a JWT token. */
     public String extractUsername(String token) {
         return extractAllClaims(token).getSubject();
     }
 
-    // Extract user ID from token
+    /** Extracts the user ID from a JWT token. */
     public Long extractUserId(String token) {
         return extractAllClaims(token).get("userId", Long.class);
     }
 
-    // Extract role from token
+    /** Extracts the role from a JWT token. */
     public String extractRole(String token) {
         return extractAllClaims(token).get("role", String.class);
     }
 
-    // Validate token
+    /** Validates a JWT token (checks signature and expiration). */
     public boolean isTokenValid(String token) {
         try {
             extractAllClaims(token);
@@ -63,12 +75,13 @@ public class JwtService {
         }
     }
 
-    // Check if token is expired
+    /** Checks if the token has expired. */
     private boolean isTokenExpired(String token) {
         return extractAllClaims(token).getExpiration().before(new Date());
     }
 
-    // Extract all claims
+
+    /** Extracts all claims from the token. */
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
                 .verifyWith(getSigningKey())
@@ -77,7 +90,7 @@ public class JwtService {
                 .getPayload();
     }
 
-    // Get signing key from secret
+    /** Converts the secret key string into a SecretKey for signing JWTs. */
     private SecretKey getSigningKey() {
         byte[] keyBytes = secret.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);

@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for managing tags.
+ *
+ * <p>
+ * Provides CRUD operations for tags. Admin-only operations are secured with JWT.
+ */
 @RestController
 @RequestMapping("/api/tags")
 public class TagController {
@@ -24,6 +30,11 @@ public class TagController {
 
 
 
+    /**
+     * Retrieves all tags.
+     *
+     * @return list of {@link Tag}
+     */
     @Operation(
             summary = "Get all tags",
             description = "Returns a list of all tags that can be assigned to destinations."
@@ -34,6 +45,13 @@ public class TagController {
     }
 
 
+
+    /**
+     * Retrieves a specific tag by its ID.
+     *
+     * @param id tag ID
+     * @return {@link Tag} for the given ID
+     */
     @Operation(
             summary = "Get tag by ID",
             description = "Returns details of a specific tag by its ID."
@@ -44,6 +62,13 @@ public class TagController {
     }
 
 
+
+    /**
+     * Creates a new tag. Admin-only action.
+     *
+     * @param dto request data for creating a tag
+     * @return the created {@link Tag}
+     */
     @Operation(
             summary = "Create tag",
             description = "Creates a new tag. Only ADMIN users can perform this action.",
@@ -56,6 +81,14 @@ public class TagController {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
+
+    /**
+     * Updates an existing tag. Admin-only action.
+     *
+     * @param id  tag ID
+     * @param dto request data for updating a tag
+     * @return the updated {@link Tag}
+     */
     @Operation(
             summary = "Update tag",
             description = "Updates an existing tag. Only ADMIN users can perform this action.",
@@ -68,7 +101,12 @@ public class TagController {
     }
 
 
-
+    /**
+     * Deletes a tag by ID. Admin-only action.
+     *
+     * @param id tag ID
+     * @return empty response with HTTP 204
+     */
     @Operation(
             summary = "Delete tag",
             description = "Deletes a tag by ID. Only ADMIN users can perform this action.",

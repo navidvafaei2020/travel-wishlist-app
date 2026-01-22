@@ -12,6 +12,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+/**
+ * Service implementation for managing tags associated with destinations.
+ * Provides methods to add, remove, and delete tags for a destination.
+ */
 @Service
 public class DestinationTagServiceImpl implements DestinationTagService {
 
@@ -19,6 +24,13 @@ public class DestinationTagServiceImpl implements DestinationTagService {
     private final TagRepository tagRepository;
     private final DestinationTagRepository destinationTagRepository;
 
+    /**
+     * Constructor to initialize repositories.
+     *
+     * @param destinationRepository Repository for Destination entities.
+     * @param tagRepository Repository for Tag entities.
+     * @param destinationTagRepository Repository for DestinationTag entities.
+     */
     public DestinationTagServiceImpl(
             DestinationRepository destinationRepository,
             TagRepository tagRepository,
@@ -29,34 +41,15 @@ public class DestinationTagServiceImpl implements DestinationTagService {
         this.destinationTagRepository = destinationTagRepository;
     }
 
-    /*
-    @Override
-    public void addTagToDestination(Long destinationId, Long tagId) {
-        Destination destination = destinationRepository.findById(destinationId)
-                .orElseThrow(() -> new RuntimeException("Destination not found"));
 
-        Tag tag = tagRepository.findById(tagId)
-                .orElseThrow(() -> new RuntimeException("Tag not found"));
-
-        // Prevent duplicates
-        boolean exists = destinationTagRepository
-                .findByDestination(destination)
-                .stream()
-                .anyMatch(dt -> dt.getTag().getId().equals(tagId));
-
-        if (exists) {
-            throw  new DuplicateResourceException("Tag " + tag.getName() , destination.getName(), tag.getName());
-        }
-
-        DestinationTag destinationTag = new DestinationTag();
-        destinationTag.setDestination(destination);
-        destinationTag.setTag(tag);
-
-        destinationTagRepository.save(destinationTag);
-    }
-*/
-
-
+    /**
+     * Adds multiple tags to a destination.
+     * Skips tags that are already assigned.
+     *
+     * @param destinationId ID of the destination.
+     * @param tagIds List of tag IDs to assign.
+     * @throws RuntimeException if destination or any tag is not found.
+     */
     @Override
     @Transactional
     public void addAllTagsToDestination(Long destinationId, List<Long> tagIds) {
@@ -76,7 +69,13 @@ public class DestinationTagServiceImpl implements DestinationTagService {
     }
 
 
-
+    /**
+     * Removes a specific tag from a destination.
+     *
+     * @param destinationId ID of the destination.
+     * @param tagId ID of the tag to remove.
+     * @throws RuntimeException if destination, tag, or association is not found.
+     */
     @Override
     public void removeTagFromDestination(Long destinationId, Long tagId) {
         Destination destination = destinationRepository.findById(destinationId)
@@ -95,6 +94,12 @@ public class DestinationTagServiceImpl implements DestinationTagService {
     }
 
 
+    /**
+     * Deletes all tags associated with a destination.
+     *
+     * @param destinationId ID of the destination.
+     * @throws RuntimeException if destination is not found.
+     */
     @Override
     @Transactional
     public void deleteAllTagsFromDestination(Long destinationId) {
@@ -104,7 +109,4 @@ public class DestinationTagServiceImpl implements DestinationTagService {
 
         destinationTagRepository.deleteByDestination(destination);
     }
-
-
-
 }

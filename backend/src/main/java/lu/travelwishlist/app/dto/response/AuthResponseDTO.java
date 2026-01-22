@@ -2,17 +2,41 @@ package lu.travelwishlist.app.dto.response;
 
 import lu.travelwishlist.app.entity.UserStatus;
 
+/**
+ * Data Transfer Object for authentication responses.
+ *
+ * <p>
+ * Encapsulates user details along with the JWT token returned upon login or registration.
+ */
 public class AuthResponseDTO {
 
+    /** User ID */
     private Long userId;
+
+    /** Username of the user */
     private String username;
+
+    /** Email of the user */
     private String email;
+
+    /** First name of the user */
     private String firstName;
+
+    /** Last name of the user */
     private String lastName;
+
+    /** Role of the user (e.g., ADMIN, USER) */
     private String role;
-    private String token;           // JWT token
-    private String type = "Bearer"; // Token type
+
+    /** JWT token for authentication */
+    private String token;
+
+    /** Token type, default "Bearer" */
+    private String type = "Bearer";
+
+    /** Status of the user account */
     private UserStatus status;
+
 
 
 
@@ -30,7 +54,6 @@ public class AuthResponseDTO {
         this.status = status;
     }
 
-    // Getters and Setters (one-line style)
     public Long getUserId() { return userId; }
     public void setUserId(Long userId) { this.userId = userId; }
 
@@ -57,5 +80,4 @@ public class AuthResponseDTO {
 
     public UserStatus getStatus() { return status; }
     public void setStatus(UserStatus status) { this.status = status; }
-
 }

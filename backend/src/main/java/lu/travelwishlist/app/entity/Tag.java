@@ -6,17 +6,27 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * JPA entity representing a Tag.
+ *
+ * <p>
+ * Tags are labels that can be assigned to destinations (e.g., "Beach", "Mountain", "Cheap").
+ * Each tag may be associated with multiple destinations via the DestinationTag join entity.
+ */
 @Entity
 @Table(name = "tags")
 public class Tag {
 
+    /** Primary key of the tag */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /** Name of the tag. Must be unique and not null */
     @Column(nullable = false, unique = true)
-    private String name; // e.g., "Beach", "Cheap", "Mountain"
+    private String name;
 
+    /** List of associations with destinations. Not serialized in JSON */
     @JsonIgnore
     @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DestinationTag> destinationTags = new ArrayList<>();
@@ -47,5 +57,4 @@ public class Tag {
                 ", name='" + name + '\'' +
                 '}';
     }
-
 }

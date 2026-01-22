@@ -2,17 +2,37 @@ package lu.travelwishlist.app.dto.response;
 
 import java.util.List;
 
+/**
+ * Data Transfer Object for returning wishlist entries in responses.
+ *
+ * <p>
+ * Includes the wishlist ID, destination details, associated country, and tags.
+ */
 public class WishlistResponseDTO {
 
+    /** ID of the wishlist entry */
     private Long wishlistId;
-    private Long destinationId;
-    private String destinationName;
-    private String description;
-    private String imageUrl;
-    private Long countryId;
-    private String countryName;
-    private List<String> tags;
 
+    /** ID of the associated destination */
+    private Long destinationId;
+
+    /** Name of the destination */
+    private String destinationName;
+
+    /** Description of the destination */
+    private String description;
+
+    /** Image URL of the destination */
+    private String imageUrl;
+
+    /** ID of the associated country */
+    private Long countryId;
+
+    /** Name of the associated country */
+    private String countryName;
+
+    /** List of tag names associated with the destination */
+    private List<String> tags;
 
 
 
@@ -55,5 +75,4 @@ public class WishlistResponseDTO {
 
     public List<String> getTags() { return tags; }
     public void setTags(List<String> tags) { this.tags = tags; }
-
 }
