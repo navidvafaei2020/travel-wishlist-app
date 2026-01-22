@@ -99,7 +99,7 @@ public class DestinationController {
         return ResponseEntity.noContent().build();
     }
 
-
+/*
     // Tag endpoints - admin only
     @Operation(
             summary = "Add tag",
@@ -115,6 +115,9 @@ public class DestinationController {
     }
 
 
+ */
+
+    /*
     @Operation(
             summary = "Removes tag",
             description = "Removes an existing tag. Only ADMIN users can perform this action.",
@@ -127,6 +130,6 @@ public class DestinationController {
         destinationTagService.removeTagFromDestination(destinationId, tagId);
         return ResponseEntity.ok().build();
     }
-
+*/
 
 }

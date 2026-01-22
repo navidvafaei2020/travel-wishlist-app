@@ -10,6 +10,8 @@ import lu.travelwishlist.app.repository.DestinationTagRepository;
 import lu.travelwishlist.app.repository.TagRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DestinationTagServiceImpl implements DestinationTagService {
 
@@ -27,6 +29,7 @@ public class DestinationTagServiceImpl implements DestinationTagService {
         this.destinationTagRepository = destinationTagRepository;
     }
 
+    /*
     @Override
     public void addTagToDestination(Long destinationId, Long tagId) {
         Destination destination = destinationRepository.findById(destinationId)
@@ -37,7 +40,7 @@ public class DestinationTagServiceImpl implements DestinationTagService {
 
         // Prevent duplicates
         boolean exists = destinationTagRepository
-                .findByDestinationOrderByTagNameAsc(destination)
+                .findByDestination(destination)
                 .stream()
                 .anyMatch(dt -> dt.getTag().getId().equals(tagId));
 
@@ -51,6 +54,27 @@ public class DestinationTagServiceImpl implements DestinationTagService {
 
         destinationTagRepository.save(destinationTag);
     }
+*/
+
+
+    @Override
+    @Transactional
+    public void addAllTagsToDestination(Long destinationId, List<Long> tagIds) {
+
+        Destination destination = destinationRepository.findById(destinationId)
+                .orElseThrow(() -> new RuntimeException("Destination not found"));
+
+        for (Long tagId : tagIds) {
+
+            Tag tag = tagRepository.findById(tagId)
+                    .orElseThrow(() -> new RuntimeException("Tag not found"));
+
+            if (!destinationTagRepository.existsByDestinationAndTag(destination, tag)) {
+                destinationTagRepository.save(new DestinationTag(destination, tag));
+            }
+        }
+    }
+
 
 
     @Override
@@ -61,7 +85,7 @@ public class DestinationTagServiceImpl implements DestinationTagService {
         Tag tag = tagRepository.findById(tagId)
                 .orElseThrow(() -> new RuntimeException("Tag not found"));
 
-        DestinationTag destinationTag = destinationTagRepository.findByDestinationOrderByTagNameAsc(destination)
+        DestinationTag destinationTag = destinationTagRepository.findByDestination(destination)
                 .stream()
                 .filter(dt -> dt.getTag().getId().equals(tagId))
                 .findFirst()

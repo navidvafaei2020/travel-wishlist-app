@@ -15,4 +15,11 @@ public interface DestinationRepository extends JpaRepository<Destination, Long> 
     List<Destination> findByNameIgnoreCaseAndCountry(String name, Country country);
     List<Destination> findByCountryOrderByNameAsc(Country country);
 
+    boolean existsByNameIgnoreCaseAndCountry(String name, Country country);
+    boolean existsByNameIgnoreCaseAndCountryAndIdNot(
+            String name,
+            Country country,
+            Long id
+    );
+
 }

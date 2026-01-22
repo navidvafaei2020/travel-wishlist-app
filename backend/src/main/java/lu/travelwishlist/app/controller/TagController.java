@@ -23,11 +23,11 @@ public class TagController {
     private TagService tagService;
 
 
+
     @Operation(
             summary = "Get all tags",
             description = "Returns a list of all tags that can be assigned to destinations."
     )
-
     @GetMapping
     public ResponseEntity<List<Tag>> getAllTags() {
         return ResponseEntity.ok(tagService.getAllTags());
@@ -56,7 +56,6 @@ public class TagController {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-
     @Operation(
             summary = "Update tag",
             description = "Updates an existing tag. Only ADMIN users can perform this action.",
@@ -70,5 +69,15 @@ public class TagController {
 
 
 
-
+    @Operation(
+            summary = "Delete tag",
+            description = "Deletes a tag by ID. Only ADMIN users can perform this action.",
+            security = @SecurityRequirement(name = "bearerAuth")
+    )
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTag(@PathVariable Long id) {
+        tagService.deleteTag(id);
+        return ResponseEntity.noContent().build();
+    }
 }

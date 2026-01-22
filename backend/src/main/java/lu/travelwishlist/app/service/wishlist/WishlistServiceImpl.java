@@ -86,7 +86,8 @@ public class WishlistServiceImpl implements WishlistService {
         Destination destination = wishlist.getDestination();
 
         // Fetch tags via DestinationTagRepository
-        List<Tag> tags = destinationTagRepository.findByDestinationOrderByTagNameAsc(destination).stream()
+        List<Tag> tags = destinationTagRepository.findByDestination(destination).stream()
+                .sorted((dt1, dt2) -> dt1.getTag().getName().compareTo(dt2.getTag().getName()))
                 .map(DestinationTag::getTag)
                 .collect(Collectors.toList());
 

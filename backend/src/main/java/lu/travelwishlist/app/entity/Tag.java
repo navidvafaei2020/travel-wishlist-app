@@ -22,7 +22,6 @@ public class Tag {
     private List<DestinationTag> destinationTags = new ArrayList<>();
 
 
-
     // Empty constructor (required by JPA)
     public Tag() {}
 
