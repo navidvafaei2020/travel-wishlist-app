@@ -1,7 +1,25 @@
 import api from "./api";
 
 
-// decode JWT to get payload
+/**
+ * authAPI module for managing authentication in the Travel Wishlist application.
+ * 
+ * <p>Provides helper functions for login, registration, token handling, and role management.</p>
+ * 
+ * Functions:
+ * <ul>
+ *   <li><code>login(credentials)</code> – Sends credentials to the backend, stores JWT on success, and returns user data.</li>
+ *   <li><code>register(userData)</code> – Registers a new user and returns the server response.</li>
+ *   <li><code>logout()</code> – Clears the stored JWT from sessionStorage.</li>
+ *   <li><code>getToken()</code> – Retrieves the current JWT from sessionStorage.</li>
+ *   <li><code>getUserRole()</code> – Decodes the JWT to extract the user's role.</li>
+ *   <li><code>getUsername()</code> – Decodes the JWT to retrieve the username.</li>
+ *   <li><code>isAdmin()</code> – Returns <code>true</code> if the user's role is ADMIN, else <code>false</code>.</li>
+ * </ul>
+ * 
+ * Internally uses <code>parseJwt</code> to decode JWT payloads.
+ */
+
 const parseJwt = (token) => {
   if (!token) return null;
   try {

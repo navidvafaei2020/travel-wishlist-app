@@ -2,6 +2,30 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authAPI } from "../services/authService";
 
+/**
+ * Register component for the Travel Wishlist application.
+ * 
+ * <p>This component provides a user registration form with the following features:</p>
+ * <ul>
+ *   <li>Form fields for first name, last name, email, username, password, and role selection.</li>
+ *   <li>Client-side state management for form input and validation errors.</li>
+ *   <li>Submits registration data via <code>authAPI.register</code> and stores the returned token.</li>
+ *   <li>Handles field-level validation errors and general API errors.</li>
+ *   <li>Redirects users based on role after successful registration:
+ *     <ul>
+ *       <li>ADMIN → /destinations</li>
+ *       <li>USER → /wishlist</li>
+ *     </ul>
+ *   </li>
+ *   <li>Provides a link to the login page for existing users.</li>
+ * </ul>
+ * 
+ * Uses TailwindCSS for styling and responsive layout.
+ * 
+ * @component
+ */
+
+
   const Register = () => {
   const navigate = useNavigate();
 

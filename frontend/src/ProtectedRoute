@@ -1,0 +1,32 @@
+import { Navigate } from "react-router-dom";
+import { authAPI } from  "../src/services/authService";
+
+/**
+ * ProtectedRoute component for route guarding in the Travel Wishlist app.
+ * 
+ * <p>Ensures that only authenticated users (USER or ADMIN) can access certain routes.</p>
+ * 
+ * Props:
+ * <ul>
+ *   <li><code>children</code> – The component(s) to render if the user is authenticated.</li>
+ * </ul>
+ * 
+ * Behavior:
+ * <ul>
+ *   <li>Uses <code>authAPI.getUserRole()</code> to check if a user is logged in.</li>
+ *   <li>If no role is found, redirects the user to <code>/login</code> using <code>Navigate</code> from <code>react-router-dom</code>.</li>
+ *   <li>If authenticated, renders the children components.</li>
+ * </ul>
+ */
+
+const ProtectedRoute = ({ children }) => {
+  const role = authAPI.getUserRole();
+
+  if (!role) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+};
+
+export default ProtectedRoute;

@@ -1,5 +1,18 @@
 import { FaGlobe } from "react-icons/fa";
 
+/**
+ * About component for the Travel Wishlist application.
+ * 
+ * <p>Displays information about the project, including its purpose and features.</p>
+ * 
+ * Features:
+ * - Shows a globe icon using react-icons.
+ * - Provides a brief description of the application.
+ * - Styled with TailwindCSS for layout and typography.
+ * 
+ * @component
+ */
+
 const About = () => {
   return (
     <div className="max-w-3xl mx-auto mt-16 text-center">
