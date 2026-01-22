@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Destinations from "./pages/Destinations";
 import Wishlist from "./pages/Wishlist";
 import DestinationForm from "./pages/admin/DestinationForm";
+import TagManagement from "./pages/admin/TagManagement";
 import Register from "./pages/Register";
 import About from "./pages/About";
 import Home from "./pages/Home";
@@ -16,9 +17,12 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/destinations" element={<Destinations />} />
+      
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/admin/destinations/new" element={<DestinationForm />} />
-        <Route path="/admin/destinations/edit/:id" element={<DestinationForm />} />        
+        <Route path="/admin/destinations/edit/:id" element={<DestinationForm />} />
+        <Route path="/admin/tags" element={<TagManagement />} />
+
         <Route path="*" element={<Login />} />
         <Route path="/register" element={<Register />} />
 

@@ -35,6 +35,14 @@ const Navbar = () => {
           </Link>
         )}
 
+        {role === "ADMIN" && (
+          <li>
+            <Link to="/admin/tags" className="hover:text-purple-600">
+              Manage Tags
+            </Link>
+          </li>
+        )}
+
         {role === "USER" && (
           <Link
             to="/wishlist"
