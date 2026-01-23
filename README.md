@@ -163,6 +163,19 @@ For full API documentation use the Swagger/OpenAPI UI (see above).
 - Role-based access control (e.g., `ROLE_USER`, `ROLE_ADMIN`).
 - Token-based authentication (JWT). Frontend stores token (e.g., `localStorage`) and sends it with protected requests.
 
+### OpenAI Integration (Optional & Safe by Default)
+
+This project includes an optional OpenAI-based feature used to suggest travel destinations based on tags.
+Important:
+The application runs without any OpenAI configuration
+No API key is required to start or test the project
+If no key is provided, the application automatically uses predefined fallback suggestions
+This design ensures the project can be cloned, run, and reviewed without additional setup.
+How It Works:
+If an OpenAI API key is provided, the application uses the OpenAI API to generate destination suggestions.
+If no API key is provided, the application returns a default list of destinations.
+This behavior is intentional and allows easy evaluation of the project.
+
 ### Git & Submission Guidelines
 
 - Use Git with feature branches; commit frequently (daily).
