@@ -166,6 +166,7 @@ For full API documentation use the Swagger/OpenAPI UI (see above).
 ### OpenAI Integration (Optional & Safe by Default)
 
 This project includes an optional OpenAI-based feature used to suggest travel destinations based on tags.
+
 Important:
 The application runs without any OpenAI configuration
 No API key is required to start or test the project
